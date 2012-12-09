@@ -1,8 +1,8 @@
 package graphics;
 
-import Util.Vector3D;
+import util.Vector3D;
 
-public class Box {
+public class Box extends Surface{
 	private Vector3D minPoint;
 	private Vector3D maxPoint;
 	
