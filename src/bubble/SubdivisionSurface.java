@@ -68,7 +68,7 @@ public class SubdivisionSurface {//Loop
 			   diagonalPts[0] = triWithBorder[0].getOtherPt(pt1, pt2);
 			   diagonalPts[1] = triWithBorder[1].getOtherPt(pt1, pt2);
 			   Vector3D[] pts = {verticles.get(pt1), verticles.get(pt2), verticles.get(diagonalPts[0]), verticles.get(diagonalPts[1])};
-			   Double[] coes = {3.0/8, 3.0/8, 1.0/8, 1.0/8};
+			   double[] coes = {3.0/8, 3.0/8, 1.0/8, 1.0/8};
 			   Vector3D newMidPt = Vector3D.LinearSum(pts, coes);
 			   newVerticles.add(newMidPt);
 			   midPtMap.put(new Pair<Integer, Integer>(pt1, pt2), newVerticles.size()-1);
@@ -93,7 +93,7 @@ public class SubdivisionSurface {//Loop
 			   Integer[] neighbourIndex = neighbourPts.toArray(new Integer[0]);
 			   int size = neighbourPts.size();
 			   Vector3D[] pts = new Vector3D[size+1];
-			   Double[] coes = new Double[size+1];
+			   double[] coes = new double[size+1];
 			   double beta = (5.0/8 - Math.pow(3.0/8 - 0.25*Math.cos(2*3.1415/size), 2)) / size;
 			   for(int j = 0; j < size; j++){
 				   pts[j] = verticles.get(neighbourIndex[j]);
