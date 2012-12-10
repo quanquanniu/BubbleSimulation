@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/zetan/programming/jogl-1.1.1-windows-amd64/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/zetan/programming/jogl-1.1.1-windows-amd64/lib/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="C:/zetan/programming/jogl-1.1.1-windows-amd64/lib/jogl.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
