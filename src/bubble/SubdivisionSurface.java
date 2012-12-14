@@ -144,8 +144,41 @@ public class SubdivisionSurface {//Loop
    }
    
    
-   public List<Triangle> exportToTraigles(GL gl){
-	   return null;
+   public List<Triangle> exportToTraigles(){
+	   Vector3D central = getCentralPoint();
+	   List<Triangle> exportTriangles = new ArrayList<Triangle>();
+	   for(SubTriangle triangle : triangles){
+		   //TODO:
+		   Triangle newTriangle = new Triangle(verticles.get(triangle.index[0]), verticles.get(triangle.index[1]), verticles.get(triangle.index[2]));
+		   //compute normal
+		   Vector3D ab = Vector3D.Substract(newTriangle.getVerticles()[0], newTriangle.getVerticles()[1]);
+		   Vector3D bc = Vector3D.Substract(newTriangle.getVerticles()[0], newTriangle.getVerticles()[1]);
+		   Vector3D normal = Vector3D.CrossProduct(ab, bc);
+		   Vector3D relaA = Vector3D.Substract(newTriangle.getVerticles()[0], central);
+		   if(Vector3D.DotProduct(normal, relaA) > 0){
+			   newTriangle.setNormal(normal);
+		   }else{
+			   newTriangle.setNormal(Vector3D.Multiply(normal, -1));
+		   }
+		   exportTriangles.add(newTriangle);
+	   }
+	   return exportTriangles;
+   }
+   
+   public Vector3D getCentralPoint(){
+	   Vector3D central = new Vector3D();
+	   for(Vector3D vertical : verticles){
+		   central.x += vertical.x;
+		   central.y += vertical.y;
+		   central.z += vertical.z;
+	   }
+	   return Vector3D.Multiply(central, 1.0 / verticles.size());
+   }
+   
+   public double getRadius(){
+	   Vector3D central = getCentralPoint();
+	   Vector3D relaA = Vector3D.Substract(verticles.get(0), central);
+	   return relaA.Length();
    }
    
    public void Draw(GL gl){

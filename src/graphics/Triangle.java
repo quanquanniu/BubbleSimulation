@@ -1,5 +1,6 @@
 package graphics;
 
+import main.Scene;
 import Jama.Matrix;
 import util.MyMatrix;
 import util.Vector3D;
@@ -7,7 +8,8 @@ import util.Vector3D;
 public class Triangle extends Surface {
 	protected Vector3D[] verticles = new Vector3D[3];
 	protected Vector3D normal;
-
+	protected Material material = Scene.testMaterial;
+	
 	public Triangle() {
 	}
 

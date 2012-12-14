@@ -10,8 +10,10 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 
+import bubble.Bubble;
 import bubble.SubdivisionSurface;
 
+import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.FPSAnimator;
 
 /**
@@ -116,6 +118,11 @@ public class GLTest extends GLCanvas implements GLEventListener {
         */
         SubdivisionSurface subface = new SubdivisionSurface(20, 4);
         subface.Draw(gl);
+        
+        Bubble bubble = new Bubble(subface.exportToTraigles());
+        bubble.setCentral(subface.getCentralPoint());
+        bubble.setRadius(subface.getRadius());
+        //TODO: bubble draw
     }
 
     /**

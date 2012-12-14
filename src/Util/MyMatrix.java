@@ -7,7 +7,9 @@ public class MyMatrix {
 	public MyMatrix(){}
 	
 	
-	//solve Ax=b, where A->3*3
+	/*
+	 * solve Ax=b, where A->3*3
+	 */
 	public static Vector3D SolveEquation(Matrix A, Vector3D b){
 		double a, r, t;
 		double aDet = A.det();

@@ -53,6 +53,13 @@ public class Vector3D {
 		return product;
 	}
 
+	public static Vector3D CrossProduct(Vector3D a, Vector3D b){
+		double x = a.y * b.z - a.z * b.y;
+		double y = a.z * b.x - a.x * b.z;
+		double z = a.x * b.y - a.y * b.x;
+		return new Vector3D(x, y, z);
+	}
+	
 	public static double cos(Vector3D a, Vector3D b) {
 		double product = Vector3D.DotProduct(a, b);
 		double lengthA = a.Length();
