@@ -114,7 +114,7 @@ public class GLTest extends GLCanvas implements GLEventListener {
         gl.glVertex3f(0, 20, 0);
         gl.glEnd();
         */
-        SubdivisionSurface subface = new SubdivisionSurface(10, 4);
+        SubdivisionSurface subface = new SubdivisionSurface(20, 4);
         subface.Draw(gl);
     }
 
@@ -164,11 +164,13 @@ public class GLTest extends GLCanvas implements GLEventListener {
         float SHINE_ALL_DIRECTIONS = 1;
         float[] lightPos = {-30, 0, 30, SHINE_ALL_DIRECTIONS};
         float[] lightColorAmbient = {0.2f, 0.2f, 0.2f, 1f};
-        float[] lightColorSpecular = {0.8f, 0.8f, 0.8f, 1f};
+        float[] lightColorDiffuse = {0.1f, 0.1f, 0.1f, 1f};
+        float[] lightColorSpecular = {0.2f, 0.0f, 0.0f, 1f};
 
         // Set light parameters.
         gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION, lightPos, 0);
         gl.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, lightColorAmbient, 0);
+        gl.glLightfv(GL.GL_LIGHT1, GL.GL_DIFFUSE, lightColorDiffuse, 0);
         gl.glLightfv(GL.GL_LIGHT1, GL.GL_SPECULAR, lightColorSpecular, 0);
 
         // Enable lighting in GL.
@@ -177,7 +179,10 @@ public class GLTest extends GLCanvas implements GLEventListener {
 
         // Set material properties.
         float[] rgba = {0.3f, 0.5f, 1f};
+        float[] rgbaD = {0.5f, 0.7f, 1};
+        float[] rgbaS = {0.5f, 0.7f, 1};
         gl.glMaterialfv(GL.GL_FRONT, GL.GL_AMBIENT, rgba, 0);
+        gl.glMaterialfv(GL.GL_FRONT, GL.GL_DIFFUSE, rgbaD, 0);
         gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, rgba, 0);
         gl.glMaterialf(GL.GL_FRONT, GL.GL_SHININESS, 0.5f);
     }
