@@ -9,7 +9,7 @@ public class Surface {
 	}
 	
 	/* get the hit point. if many, return the nearest one*/
-	public Vector3D hitNearestPoint(Vector3D start, Vector3D direction, double mint, double maxt){
+	public HitRecord hitNearestPoint(Vector3D start, Vector3D direction, double mint, double maxt){
 		return null;
 	}
 }

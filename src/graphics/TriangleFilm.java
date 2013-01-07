@@ -23,19 +23,21 @@ public class TriangleFilm extends Triangle{
 		return super.hit(start, direction, mint, maxt);
 	}
 	
-	public Vector3D hitNearestPoint(Vector3D start, Vector3D direction,
+	public HitRecord hitNearestPoint(Vector3D start, Vector3D direction,
 			double mint, double maxt) {
-		Vector3D outerPt = super.hitNearestPoint(start, direction, mint, maxt);
+		HitRecord record  = super.hitNearestPoint(start, direction, mint, maxt);
+		Vector3D outerPt = record.getHitPt();
 		//if normal*direction < 0 ==> return the outer
 		//else 					  ==> return the inner
 		if(Vector3D.DotProduct(normal, direction) < 0){
-			return outerPt;
+			return record;
 		}else{
 			//inner = outer - thickness/sin * direction
 			double cos = Vector3D.cos(direction, normal);
 			double sin = Math.sqrt(1 - cos * cos);
 			Vector3D innerPt = Vector3D.Add(outerPt, Vector3D.Multiply(direction, -1 * thickness / sin));
-			return innerPt;
+			HitRecord innerRecord = new HitRecord(innerPt,this, record.getDistance() - thickness / sin);
+			return innerRecord;
 		}
 	} 
 }

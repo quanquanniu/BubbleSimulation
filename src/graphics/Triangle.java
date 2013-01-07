@@ -40,7 +40,7 @@ public class Triangle extends Surface {
 
 	}
 
-	public Vector3D hitNearestPoint(Vector3D start, Vector3D direction,
+	public HitRecord hitNearestPoint(Vector3D start, Vector3D direction,
 			double mint, double maxt) {
 		Vector3D solution = getHitSolution(start, direction);
 		if (solution != null && solution.x > 0 && solution.y > 0
@@ -51,7 +51,8 @@ public class Triangle extends Surface {
 			Vector3D[] vecs = {ab, ac};
 			double[] coes = {solution.x, solution.y};
 			Vector3D hitPt = Vector3D.LinearSum(vecs, coes);
-			return hitPt;
+			HitRecord record = new HitRecord(hitPt, this, solution.z);
+			return record;
 		} else {
 			return null;
 		}
