@@ -17,6 +17,10 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 
 import sun.awt.GlobalCursorManager;
+import sun.nio.cs.ext.TIS_620;
+import util.Color;
+import util.GLImage;
+import util.Vector3D;
 
 import bubble.SubdivisionSurface;
 
@@ -37,10 +41,23 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 	private static final long serialVersionUID = 1L;
 	private GLU glu;
 	private Point mousePoint;
+	private RayTracer rayTracer;
+	private GLImage glImage;
+	private Vector3D eyePt;
+	private int width;
+	private int height;
 
 	public SimpleRayTracer(GLCapabilities capabilities, int width, int height) {
+		this.width = width;
+		this.height = height;
+		glImage = new GLImage(width, height);
+		rayTracer = new RayTracer();
+		eyePt = new Vector3D(0,0,100);
+		
+		
 		addGLEventListener(this);
 		addMouseMotionListener(this);
+		
 	}
 
 	/**
@@ -76,28 +93,43 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 	 * @see javax.media.opengl.GLEventListener#display(javax.media.opengl.GLAutoDrawable)
 	 */
 	public void display(GLAutoDrawable drawable) {
-		int width = 800;
-		int height = 500;
-		ByteBuffer colorValues = BufferUtil.newByteBuffer(height * width * 3);
-				
-		for (int i = 0; i < height * width * 3; i++) {
-			if(i % (3*width) < width) colorValues.put((byte)255.0);
-			else colorValues.put((byte)100.0);
-		}
+	//	ByteBuffer colorValues = BufferUtil.newByteBuffer(height * width * 3);
+			
+		double frameZ = 50;
+		for(int i = 0; i < width; i++)
+			for(int j = 0; j < height;j++){
+	
+		
+				double x = (eyePt.z - frameZ) * (i - width / 2) / eyePt.z;
+				double y = (eyePt.z - frameZ) * (-j + height / 2) / eyePt.z;
+				Vector3D framePt = new Vector3D(x, y, frameZ);
+				Vector3D direction = Vector3D.Substract(framePt, eyePt);
+				direction.Print("direction");
+				Color color = rayTracer.Trace(framePt, Vector3D.Normalize(direction), 0.1, 100);
+				Color color255 = color.ToColor255();
+				color255.Print();
+				glImage.setPixel(i, j, color.ToColor255());
+			/*	if(i > width / 4 && i < width *3/4 )
+					glImage.setPixel(i, j, new Color(255, 255, 255));
+				else glImage.setPixel(i, j, new Color(0,0,0));*/
+			}
+
+		ByteBuffer colorValues = glImage.getBuffer();
 		colorValues.rewind();
 
 		 GL gl = drawable.getGL();
 		    
 		    gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
-		    if (mousePoint != null)
+		   /* if (mousePoint != null)
 		    {
 		      int screeny = height - (int)mousePoint.getY();
 		      gl.glRasterPos2i(mousePoint.x, screeny);
 		      gl.glPixelZoom(1.0f, 1.0f);
 		      gl.glCopyPixels(0, 0, width, height, GL.GL_COLOR);
 		    }
-		    else gl.glRasterPos2i(0, 0);
+		    else gl.glRasterPos2i(0, 0);*/
+		    gl.glRasterPos2i(0, 0);
 		    
 		    gl.glDrawPixels(width, height, GL.GL_RGB,
 		        GL.GL_UNSIGNED_BYTE, colorValues);
@@ -129,17 +161,18 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 
 	public void mouseMoved(MouseEvent mouse) {
 		mousePoint = mouse.getPoint();
-		//System.out.println("mouse x = " + mousePoint.x);
 		display();
 	}
 
 	
 	public static void main(String[] args) {
+		int WIDTH = 800;
+		int HEIGHT = 500;
 		GLCapabilities capabilities = createGLCapabilities();
-		SimpleRayTracer canvas = new SimpleRayTracer(capabilities, 800, 500);
+		SimpleRayTracer canvas = new SimpleRayTracer(capabilities, WIDTH,HEIGHT);
 		JFrame frame = new JFrame("Mini JOGL Demo (breed)");
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
-		frame.setSize(800, 500);
+		frame.setSize(WIDTH,HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		canvas.requestFocus();

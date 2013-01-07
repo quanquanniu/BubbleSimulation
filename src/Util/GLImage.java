@@ -22,7 +22,7 @@ public class GLImage {
 
 	// left to right, bottom to top
 	public void setPixel(int w, int h, Color pixel) {
-		int index = (width * 3) * (height - h) + w * 3;
+		int index = (width * 3) * (height - h -1) + w * 3;
 		pixels[index] = (byte) pixel.r;
 		pixels[index + 1] = (byte) pixel.g;
 		pixels[index + 2] = (byte) pixel.b;

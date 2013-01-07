@@ -30,12 +30,20 @@ public class Vector3D {
 		}
 		return newVec;
 	}
-
+	
 	public double Length() {
 		double length = x * x + y * y + z * z;
 		return Math.sqrt(length);
 	}
 
+	public static Vector3D Normalize(Vector3D vec){
+		double length = vec.Length();
+		if(length != 0){
+			return new Vector3D(vec.x / length, vec.y / length, vec.z / length);
+		}else{
+			return vec;
+		}
+	}
 	public static Vector3D Multiply(Vector3D vec, double coe) {
 		return new Vector3D(vec.x * coe, vec.y * coe, vec.z * coe);
 	}
@@ -94,5 +102,9 @@ public class Vector3D {
 	public void setZ(double z) {
 		this.z = z;
 	}
-
+	
+	public void Print(String description){
+		System.out.println(description + "= " + x + "\t" + y + "\t" + z);
+		
+	}
 }
