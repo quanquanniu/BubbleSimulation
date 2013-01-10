@@ -52,12 +52,11 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 		this.height = height;
 		glImage = new GLImage(width, height);
 		rayTracer = new RayTracer();
-		eyePt = new Vector3D(0,0,100);
-		
-		
+		eyePt = new Vector3D(0, 0, 100);
+
 		addGLEventListener(this);
 		addMouseMotionListener(this);
-		
+
 	}
 
 	/**
@@ -93,66 +92,50 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 	 * @see javax.media.opengl.GLEventListener#display(javax.media.opengl.GLAutoDrawable)
 	 */
 	public void display(GLAutoDrawable drawable) {
-	//	ByteBuffer colorValues = BufferUtil.newByteBuffer(height * width * 3);
-			
+
 		double frameZ = 50;
-		for(int i = 0; i < width; i++)
-			for(int j = 0; j < height;j++){
-	
-		
+		for (int j = 0; j < height; j++)
+			for (int i = 0; i < width; i++) {
 				double x = (eyePt.z - frameZ) * (i - width / 2) / eyePt.z;
 				double y = (eyePt.z - frameZ) * (-j + height / 2) / eyePt.z;
 				Vector3D framePt = new Vector3D(x, y, frameZ);
 				Vector3D direction = Vector3D.Substract(framePt, eyePt);
-				direction.Print("direction");
-				Color color = rayTracer.Trace(framePt, Vector3D.Normalize(direction), 0.1, 100);
-				Color color255 = color.ToColor255();
-				color255.Print();
+				Color color = rayTracer.Trace(framePt,
+						Vector3D.Normalize(direction), 0.1, 100);
+
 				glImage.setPixel(i, j, color.ToColor255());
-			/*	if(i > width / 4 && i < width *3/4 )
-					glImage.setPixel(i, j, new Color(255, 255, 255));
-				else glImage.setPixel(i, j, new Color(0,0,0));*/
+				/*
+				 * if(i > width / 4 && i < width *3/4 && j < height / 2)
+				 * glImage.setPixel(i, j, new Color(255, 255, 255)); else
+				 * glImage.setPixel(i, j, new Color(100,200,200));
+				 */
 			}
 
 		ByteBuffer colorValues = glImage.getBuffer();
 		colorValues.rewind();
 
-		 GL gl = drawable.getGL();
-		    
-		    gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-
-		   /* if (mousePoint != null)
-		    {
-		      int screeny = height - (int)mousePoint.getY();
-		      gl.glRasterPos2i(mousePoint.x, screeny);
-		      gl.glPixelZoom(1.0f, 1.0f);
-		      gl.glCopyPixels(0, 0, width, height, GL.GL_COLOR);
-		    }
-		    else gl.glRasterPos2i(0, 0);*/
-		    gl.glRasterPos2i(0, 0);
-		    
-		    gl.glDrawPixels(width, height, GL.GL_RGB,
-		        GL.GL_UNSIGNED_BYTE, colorValues);
-
-		    gl.glFlush();
+		GL gl = drawable.getGL();
+		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+		gl.glRasterPos2i(0, 0);
+		gl.glDrawPixels(width, height, GL.GL_RGB, GL.GL_UNSIGNED_BYTE,
+				colorValues);
+		gl.glFlush();
 	}
 
-	
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		 GL gl = drawable.getGL();
-		    
-		    gl.glViewport(0, 0, width, height);
-		   // height = h;
-		    gl.glMatrixMode(GL.GL_PROJECTION);
-		    gl.glLoadIdentity();
-		    glu.gluOrtho2D(0.0, (double) width, 0.0, (double) height);
-		    gl.glMatrixMode(GL.GL_MODELVIEW);
-		    gl.glLoadIdentity();
+		GL gl = drawable.getGL();
+
+		gl.glViewport(0, 0, width, height);
+		// height = h;
+		gl.glMatrixMode(GL.GL_PROJECTION);
+		gl.glLoadIdentity();
+		glu.gluOrtho2D(0.0, (double) width, 0.0, (double) height);
+		gl.glMatrixMode(GL.GL_MODELVIEW);
+		gl.glLoadIdentity();
 
 	}
 
-	
 	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
 			boolean deviceChanged) {
 		throw new UnsupportedOperationException(
@@ -164,15 +147,15 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 		display();
 	}
 
-	
 	public static void main(String[] args) {
-		int WIDTH = 800;
-		int HEIGHT = 500;
+		int WIDTH = 300;
+		int HEIGHT = 150;
 		GLCapabilities capabilities = createGLCapabilities();
-		SimpleRayTracer canvas = new SimpleRayTracer(capabilities, WIDTH,HEIGHT);
+		SimpleRayTracer canvas = new SimpleRayTracer(capabilities, WIDTH,
+				HEIGHT);
 		JFrame frame = new JFrame("Mini JOGL Demo (breed)");
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
-		frame.setSize(WIDTH,HEIGHT);
+		frame.setSize(WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		canvas.requestFocus();

@@ -152,7 +152,7 @@ public class SubdivisionSurface {//Loop
 		   Triangle newTriangle = new Triangle(verticles.get(triangle.index[0]), verticles.get(triangle.index[1]), verticles.get(triangle.index[2]));
 		   //compute normal
 		   Vector3D ab = Vector3D.Substract(newTriangle.getVerticles()[0], newTriangle.getVerticles()[1]);
-		   Vector3D bc = Vector3D.Substract(newTriangle.getVerticles()[0], newTriangle.getVerticles()[1]);
+		   Vector3D bc = Vector3D.Substract(newTriangle.getVerticles()[1], newTriangle.getVerticles()[2]);
 		   Vector3D normal = Vector3D.CrossProduct(ab, bc);
 		   Vector3D relaA = Vector3D.Substract(newTriangle.getVerticles()[0], central);
 		   if(Vector3D.DotProduct(normal, relaA) > 0){

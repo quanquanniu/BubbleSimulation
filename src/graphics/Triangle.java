@@ -48,8 +48,8 @@ public class Triangle extends Surface {
 				&& solution.z < maxt) {
 			Vector3D ab = Vector3D.Substract(verticles[1], verticles[0]);
 			Vector3D ac = Vector3D.Substract(verticles[2], verticles[0]);
-			Vector3D[] vecs = {ab, ac};
-			double[] coes = {solution.x, solution.y};
+			Vector3D[] vecs = {ab, ac, verticles[0]};
+			double[] coes = {solution.x, solution.y, 1};
 			Vector3D hitPt = Vector3D.LinearSum(vecs, coes);
 			HitRecord record = new HitRecord(hitPt, this, solution.z);
 			return record;

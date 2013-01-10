@@ -32,7 +32,7 @@ public class Scene {
 	}
 
 	public void SetupScene() {
-		backgroundColor = new Color(0, 0, 0);
+		backgroundColor = new Color(100.0/255, 200.0/255, 200.0/255);
 		SetupLights();
 		SetupMaterials();
 		SetupBubbleList();
@@ -53,9 +53,9 @@ public class Scene {
 		// light 1
 		Light light1 = new Light();
 		light1.setType(Light.SPOT_LIGHT_ALL_DIRECTION);
-		light1.setDiffuse(new Color(0.1, 0.1, 0.1, 1));
+		light1.setDiffuse(new Color(1, 1, 1, 1));
 		light1.setSpecular(new Color(0.2, 0.0, 0.0, 1));
-		light1.setPos(new Vector3D(-30, 0, 30));
+		light1.setPos(new Vector3D(-30, 0, 50));
 
 		lightList.add(light1);
 	}
@@ -70,7 +70,7 @@ public class Scene {
 
 	private void SetupBubbleList() {
 		bubbleList = new ArrayList<>();
-		SubdivisionSurface subface = new SubdivisionSurface(40, 4);
+		SubdivisionSurface subface = new SubdivisionSurface(40, 1);
 
 		Bubble bubble = new Bubble(subface.exportToTraigles());
 		bubble.setCentral(subface.getCentralPoint());
