@@ -13,6 +13,8 @@ import util.Color;
 import util.Vector3D;
 
 public class RayTracer {
+
+	public static final int MAX_DEPTH = 1;
 	private Scene scene;
 
 	public RayTracer() {
@@ -21,38 +23,56 @@ public class RayTracer {
 	}
 
 	public Color Trace(Vector3D start, Vector3D direction, double tmin,
-			double tmax, Vector3D eyePt) {
+			double tmax, Vector3D eyePt, int depth) {
 		Color color = scene.getBackgroundColor();
 		// is hit
 		HitRecord hitRecord = getHitRecord(start, direction, tmin, tmax);
 		if (hitRecord != null) {
 			color = Color.DotMultiply(scene.getAmbientLight().getAmbient(),
 					Scene.testMaterial.getAmbient());
-			Triangle surface = (Triangle)hitRecord.getSurface();
-			
-			for(Light light : scene.getLightList()){
-				Color diffuse = getDiffuseColor(hitRecord.getHitPt(), light, surface.getNormal(), Scene.testMaterial);
-				if(diffuse != null){
+			Triangle surface = (Triangle) hitRecord.getSurface();
+
+			for (Light light : scene.getLightList()) {
+				Color diffuse = getDiffuseColor(hitRecord.getHitPt(), light,
+						surface.getNormal(), Scene.testMaterial);
+				if (diffuse != null) {
 					color = Color.Add(color, diffuse);
 				}
-				Color specular = getSpecularColor(hitRecord.getHitPt(), light, surface.getNormal(), Scene.testMaterial, eyePt);
-				if(specular != null){
+				Color specular = getSpecularColor(hitRecord.getHitPt(), light,
+						surface.getNormal(), Scene.testMaterial, eyePt);
+				if (specular != null) {
 					color = Color.Add(color, specular);
 				}
+
 			}
-  			color.ToColor255().Print();
+
+			/* recursive part */
+			if (depth != MAX_DEPTH) {
+				// reflective specular
+				double nd = Vector3D.DotProduct(surface.getNormal(), direction);
+				Vector3D reflectRay = Vector3D.Add(direction,
+						Vector3D.Scale(surface.getNormal(), nd * 2));
+				Color relectiveSpecular = Color.DotMultiply(
+						Scene.testMaterial.getSpecular(),
+						Trace(hitRecord.getHitPt(), reflectRay, tmin, tmax,
+								eyePt, depth + 1));
+				color = Color.Add(color, relectiveSpecular);
+			}
+			color.ToColor255().Print();
 		}
 		return color;
 	}
-	
-	private Color getDiffuseColor(Vector3D pt, Light light, Vector3D normal, Material material){
+
+	private Color getDiffuseColor(Vector3D pt, Light light, Vector3D normal,
+			Material material) {
 		Color diffuse = null;
-		if(light.getType() == Light.SPOT_LIGHT_ALL_DIRECTION){
+		if (light.getType() == Light.SPOT_LIGHT_ALL_DIRECTION) {
 			Vector3D toLightDirection = Vector3D.Substract(light.getPos(), pt);
 			double cos = Vector3D.cos(toLightDirection, normal);
-			
-			if(cos > 0){
-				diffuse = Color.DotMultiply(light.getDiffuse(), material.getDiffuse());
+
+			if (cos > 0) {
+				diffuse = Color.DotMultiply(light.getDiffuse(),
+						material.getDiffuse());
 				diffuse.Scale(cos);
 				System.out.println("cos = " + cos);
 			}
@@ -60,22 +80,25 @@ public class RayTracer {
 		return diffuse;
 	}
 
-	private Color getSpecularColor(Vector3D pt, Light light, Vector3D normal, Material material, Vector3D eyePt){
+	private Color getSpecularColor(Vector3D pt, Light light, Vector3D normal,
+			Material material, Vector3D eyePt) {
 		Color specular = null;
-		if(light.getType() == Light.SPOT_LIGHT_ALL_DIRECTION){
+		if (light.getType() == Light.SPOT_LIGHT_ALL_DIRECTION) {
 			Vector3D toLightDirection = Vector3D.Substract(light.getPos(), pt);
 			Vector3D toEyeDirection = Vector3D.Substract(eyePt, pt);
 			Vector3D H = Vector3D.Add(toLightDirection, toEyeDirection);
 			double cos = Vector3D.cos(normal, H);
-			if(cos > 0){
-				System.out.println("\t\t\t\tcos = " + Math.pow(cos, material.getShineness()));
-				specular = Color.DotMultiply(light.getSpecular(), material.getSpecular());
+			if (cos > 0) {
+				System.out.println("\t\t\t\tcos = "
+						+ Math.pow(cos, material.getShineness()));
+				specular = Color.DotMultiply(light.getSpecular(),
+						material.getSpecular());
 				specular.Scale(Math.pow(cos, material.getShineness()));
 			}
 		}
 		return specular;
 	}
-	
+
 	private HitRecord getHitRecord(Vector3D start, Vector3D direction,
 			double tmin, double tmax) {
 		HitRecord record = null;

@@ -79,6 +79,11 @@ public class Vector3D {
 		}
 	}
 
+	public static Vector3D Scale(Vector3D vec, double scale){
+		return new Vector3D(vec.x * scale, vec.y * scale, vec.z * scale);
+	}
+	
+	
 	public double getX() {
 		return x;
 	}
