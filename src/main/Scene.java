@@ -54,7 +54,7 @@ public class Scene {
 		Light light1 = new Light();
 		light1.setType(Light.SPOT_LIGHT_ALL_DIRECTION);
 		light1.setDiffuse(new Color(1, 1, 1, 1));
-		light1.setSpecular(new Color(0.2, 0.0, 0.0, 1));
+		light1.setSpecular(new Color(1, 1, 1, 1));
 		light1.setPos(new Vector3D(-30, 0, 50));
 
 		lightList.add(light1);
@@ -63,8 +63,8 @@ public class Scene {
 	private void SetupMaterials() {
 		testMaterial.setAmbient(new Color(0.3, 0.5, 1, 1));
 		testMaterial.setDiffuse(new Color(0.5, 0.7, 1, 1));
-		testMaterial.setSpecular(new Color(0.5, 0.7, 1, 1));
-		testMaterial.setShineness(0.5);
+		testMaterial.setSpecular(new Color(0.7, 0.7, 1, 1));
+		testMaterial.setShineness(3);
 		testMaterial.setRfrcIdx(1.0);
 	}
 

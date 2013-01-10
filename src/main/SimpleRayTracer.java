@@ -101,7 +101,7 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 				Vector3D framePt = new Vector3D(x, y, frameZ);
 				Vector3D direction = Vector3D.Substract(framePt, eyePt);
 				Color color = rayTracer.Trace(framePt,
-						Vector3D.Normalize(direction), 0.1, 100);
+						Vector3D.Normalize(direction), 0.1, 100, eyePt);
 
 				glImage.setPixel(i, j, color.ToColor255());
 				/*

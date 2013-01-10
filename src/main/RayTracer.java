@@ -21,7 +21,7 @@ public class RayTracer {
 	}
 
 	public Color Trace(Vector3D start, Vector3D direction, double tmin,
-			double tmax) {
+			double tmax, Vector3D eyePt) {
 		Color color = scene.getBackgroundColor();
 		// is hit
 		HitRecord hitRecord = getHitRecord(start, direction, tmin, tmax);
@@ -35,19 +35,21 @@ public class RayTracer {
 				if(diffuse != null){
 					color = Color.Add(color, diffuse);
 				}
+				Color specular = getSpecularColor(hitRecord.getHitPt(), light, surface.getNormal(), Scene.testMaterial, eyePt);
+				if(specular != null){
+					color = Color.Add(color, specular);
+				}
 			}
-			
-			color.ToColor255().Print();
+  			color.ToColor255().Print();
 		}
 		return color;
 	}
 	
 	private Color getDiffuseColor(Vector3D pt, Light light, Vector3D normal, Material material){
 		Color diffuse = null;
-		Vector3D lightDirection ;
 		if(light.getType() == Light.SPOT_LIGHT_ALL_DIRECTION){
-			lightDirection = Vector3D.Substract(light.getPos(), pt);
-			double cos = Vector3D.cos(lightDirection, normal);
+			Vector3D toLightDirection = Vector3D.Substract(light.getPos(), pt);
+			double cos = Vector3D.cos(toLightDirection, normal);
 			
 			if(cos > 0){
 				diffuse = Color.DotMultiply(light.getDiffuse(), material.getDiffuse());
@@ -58,9 +60,20 @@ public class RayTracer {
 		return diffuse;
 	}
 
-	private Color getSpecularColor(Vector3D pt, Light light, Vector3D normal, Material material){
+	private Color getSpecularColor(Vector3D pt, Light light, Vector3D normal, Material material, Vector3D eyePt){
 		Color specular = null;
-		return null;
+		if(light.getType() == Light.SPOT_LIGHT_ALL_DIRECTION){
+			Vector3D toLightDirection = Vector3D.Substract(light.getPos(), pt);
+			Vector3D toEyeDirection = Vector3D.Substract(eyePt, pt);
+			Vector3D H = Vector3D.Add(toLightDirection, toEyeDirection);
+			double cos = Vector3D.cos(normal, H);
+			if(cos > 0){
+				System.out.println("\t\t\t\tcos = " + Math.pow(cos, material.getShineness()));
+				specular = Color.DotMultiply(light.getSpecular(), material.getSpecular());
+				specular.Scale(Math.pow(cos, material.getShineness()));
+			}
+		}
+		return specular;
 	}
 	
 	private HitRecord getHitRecord(Vector3D start, Vector3D direction,
