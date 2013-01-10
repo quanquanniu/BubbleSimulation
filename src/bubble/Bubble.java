@@ -16,12 +16,21 @@ public class Bubble {
 	
 	public Bubble(List<Triangle> triangles){
 		this.triangles = triangles;
+		for(Triangle triangle : this.triangles){
+			triangle.setBubble(this);
+		}
 	}
+	
+	
 
 	public void Draw(){
 		//TODO
 	}
 	
+	public void getThickness(Vector3D pt){
+		//compute by pt.y & central.y
+		//300nm ~ 2000 nm
+	}
 	
 	
 	public List<Triangle> getTriangles() {
@@ -47,6 +56,7 @@ public class Bubble {
 	public void setRadius(double radius) {
 		this.radius = radius;
 	}
+	
 	
 	
 }

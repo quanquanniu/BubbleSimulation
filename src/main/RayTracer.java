@@ -114,4 +114,9 @@ public class RayTracer {
 		}
 		return record;
 	}
+	
+	private Color getInterfereColor(){
+		Color color = null;
+		return color;
+	}
 }

@@ -10,6 +10,11 @@ public class Light {
 	public static int SPOT_LIGHT_ONE_DIRECTION = 3;
 	public static int SPOT_LIGHT_PYRAMID_DIRECTION = 4;
 	
+	//http://zhidao.baidu.com/question/303610291.html
+	public static final double WAVELENGTH_RED = 700;
+	public static final double WAVELENGTH_GREEN = 470;
+	public static final double WAVELENGTH_BLUE = 420;
+	
 	Color ambient;
 	Color diffuse;
 	Color specular;

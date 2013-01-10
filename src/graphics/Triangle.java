@@ -1,5 +1,6 @@
 package graphics;
 
+import bubble.Bubble;
 import main.Scene;
 import Jama.Matrix;
 import util.MyMatrix;
@@ -9,6 +10,8 @@ public class Triangle extends Surface {
 	protected Vector3D[] verticles = new Vector3D[3];
 	protected Vector3D normal;
 	protected Material material = Scene.testMaterial;
+	
+	protected Bubble bubble;
 	
 	public Triangle() {
 	}
@@ -87,6 +90,22 @@ public class Triangle extends Surface {
 
 	public void setNormal(Vector3D normal) {
 		this.normal = normal;
+	}
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
+
+	public Bubble getBubble() {
+		return bubble;
+	}
+
+	public void setBubble(Bubble bubble) {
+		this.bubble = bubble;
 	}
 
 }
