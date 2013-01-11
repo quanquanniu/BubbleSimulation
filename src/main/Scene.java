@@ -40,7 +40,6 @@ public class Scene {
 		for(Bubble bubble : bubbleList){
 			triangleList.addAll(bubble.getTriangles());
 		}
-		
 	}
 
 	private void SetupLights() {
@@ -61,11 +60,11 @@ public class Scene {
 	}
 
 	private void SetupMaterials() {
-		testMaterial.setAmbient(new Color(0.3, 0.5, 1, 1));
-		testMaterial.setDiffuse(new Color(0.5, 0.7, 1, 1));
-		testMaterial.setSpecular(new Color(0.7, 0.7, 1, 1));
+		testMaterial.setAmbient(new Color(1, 1, 1, 1));
+		testMaterial.setDiffuse(new Color(1, 1, 1, 1));
+		testMaterial.setSpecular(new Color(1, 1, 1, 1));
 		testMaterial.setShineness(3);
-		testMaterial.setRfrcIdx(1.0);
+		testMaterial.setRfrcIdx(1.4);
 	}
 
 	private void SetupBubbleList() {

@@ -21,6 +21,10 @@ public class Vector3D {
 		this.z = z;
 	}
 
+	public Vector3D Clone(){
+		return new Vector3D(x, y, z);
+	}
+	
 	public static Vector3D LinearSum(Vector3D[] vecs, double[] coes) {
 		Vector3D newVec = new Vector3D();
 		for (int i = 0; i < vecs.length; i++) {

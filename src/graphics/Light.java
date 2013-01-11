@@ -41,6 +41,21 @@ public class Light {
 		tmax = 100000;
 	}
 
+	public Light Clone(){
+		Light clone = new Light();
+		clone.setType(type);
+		//clone.setAmbient(ambient.Clone());
+		clone.setDiffuse(diffuse.Clone());
+		clone.setSpecular(specular.Clone());
+		clone.setPos(pos.Clone());
+		if(direction != null)
+			clone.setDirection(direction.Clone());
+		clone.setTmax(tmax);
+		clone.setTmin(tmin);
+		return clone;
+	}
+	
+	
 	public Color getAmbient() {
 		return ambient;
 	}

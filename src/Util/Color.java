@@ -23,6 +23,10 @@ public class Color {
 		this.a = a;
 	}
 	
+	public Color Clone(){
+		return new Color(r, g, b, a);
+	}
+	
 	public Color ToColor255(){
 		int R = (int)(r * 255);
 		int G = (int)(g * 255);
@@ -48,7 +52,7 @@ public class Color {
 		if(sumB > 1) sumB = 1;
 		return new Color(sumR, sumG, sumB);
 	}
-	public void Print(){
-		System.out.println("color = " + r + "\t" + g + "\t" + b);
+	public void Print(String description){
+		System.out.println(description + " color = " + r + "\t" + g + "\t" + b);
 	}
 }

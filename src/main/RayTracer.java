@@ -9,19 +9,21 @@ import java.util.List;
 
 import com.sun.org.apache.xerces.internal.impl.dtd.models.DFAContentModel;
 
+import sun.org.mozilla.javascript.internal.InterfaceAdapter;
 import util.Color;
 import util.Vector3D;
 
 public class RayTracer {
 
-	public static final int MAX_DEPTH = 1;
+	public static final int MAX_DEPTH = 2;
 	private Scene scene;
 
 	public RayTracer() {
 		scene = new Scene();
 		scene.SetupScene();
 	}
-
+	
+	/* reverseLightIfNeed --> for refraction, lightOutSphere -> lightIntoTheSphere*/
 	public Color Trace(Vector3D start, Vector3D direction, double tmin,
 			double tmax, Vector3D eyePt, int depth) {
 		Color color = scene.getBackgroundColor();
@@ -33,12 +35,16 @@ public class RayTracer {
 			Triangle surface = (Triangle) hitRecord.getSurface();
 
 			for (Light light : scene.getLightList()) {
-				Color diffuse = getDiffuseColor(hitRecord.getHitPt(), light,
+				Light interfereLight = light.Clone();
+				Color interfereColor = getInterfereLight(hitRecord.getHitPt(), light, surface.getNormal(), Scene.testMaterial, hitRecord);
+				interfereLight.setDiffuse(interfereColor);
+				interfereLight.setSpecular(interfereColor);
+				Color diffuse = getDiffuseColor(hitRecord.getHitPt(), interfereLight,
 						surface.getNormal(), Scene.testMaterial);
 				if (diffuse != null) {
 					color = Color.Add(color, diffuse);
 				}
-				Color specular = getSpecularColor(hitRecord.getHitPt(), light,
+				Color specular = getSpecularColor(hitRecord.getHitPt(), interfereLight,
 						surface.getNormal(), Scene.testMaterial, eyePt);
 				if (specular != null) {
 					color = Color.Add(color, specular);
@@ -48,17 +54,29 @@ public class RayTracer {
 
 			/* recursive part */
 			if (depth != MAX_DEPTH) {
+				
+				/* color += reflect * R + refract * (1-R) */
+				double cos = Math.abs(Vector3D.cos(surface.getNormal(), direction));
+				double R0 = Scene.testMaterial.getR0();
+				double R = R0 + (1 - R0) * Math.pow(1 - cos, 5);
+				System.out.println("\t\t\t\t\tR = " + R);
 				// reflective specular
 				double nd = Vector3D.DotProduct(surface.getNormal(), direction);
 				Vector3D reflectRay = Vector3D.Add(direction,
 						Vector3D.Scale(surface.getNormal(), nd * 2));
+				Color reflectLight = Trace(hitRecord.getHitPt(), reflectRay, tmin, tmax,
+						eyePt, depth + 1);
+				reflectLight.Print("\t\t\t\t\treflectLight");
 				Color relectiveSpecular = Color.DotMultiply(
-						Scene.testMaterial.getSpecular(),
-						Trace(hitRecord.getHitPt(), reflectRay, tmin, tmax,
-								eyePt, depth + 1));
+						Scene.testMaterial.getSpecular(),reflectLight);
+				relectiveSpecular.Scale(R);
+				
 				color = Color.Add(color, relectiveSpecular);
+				
+				//refraction
+				
 			}
-			color.ToColor255().Print();
+			color.ToColor255().Print("final");
 		}
 		return color;
 	}
@@ -115,8 +133,32 @@ public class RayTracer {
 		return record;
 	}
 	
-	private Color getInterfereColor(){
-		Color color = null;
-		return color;
+	private Color getInterfereLight(Vector3D pt, Light light, Vector3D normal, Material material, HitRecord record){
+		Triangle triangle = (Triangle)record.getSurface();
+		double thickness = triangle.getBubble().getThickness(pt);
+		Vector3D toLightDirection = Vector3D.Substract(light.getPos(), pt);
+		double cos = Vector3D.cos(normal, toLightDirection);
+		double d = 2 * thickness * material.getRfrcIdx() * cos;
+		
+		//R
+		double eoplR = d + Light.WAVELENGTH_RED / 2;
+		double modR = eoplR % Light.WAVELENGTH_RED; 
+		double scaleR = Math.abs(modR - Light.WAVELENGTH_RED / 2) / Light.WAVELENGTH_RED * 2;
+		double interfereR = light.getDiffuse().r * scaleR;
+		//G
+		double eoplG = d + Light.WAVELENGTH_GREEN / 2;
+		double modG = eoplG % Light.WAVELENGTH_GREEN; 
+		double scaleG = Math.abs(modG - Light.WAVELENGTH_GREEN / 2) / Light.WAVELENGTH_GREEN * 2;
+		double interfereG = light.getDiffuse().g * scaleG;
+		//B
+		double eoplB = d + Light.WAVELENGTH_BLUE / 2;
+		double modB = eoplB % Light.WAVELENGTH_BLUE; 
+		double scaleB = Math.abs(modG - Light.WAVELENGTH_BLUE / 2) / Light.WAVELENGTH_BLUE * 2;
+		double interfereB = light.getDiffuse().b * scaleB;
+		//
+		if(interfereR > 1) interfereR = 1;
+		if(interfereG > 1) interfereG = 1;
+		if(interfereB > 1) interfereB = 1;
+		return new Color(interfereR, interfereG, interfereB);
 	}
 }
