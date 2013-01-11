@@ -96,6 +96,8 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 		double frameZ = 50;
 		for (int j = 0; j < height; j++)
 			for (int i = 0; i < width; i++) {
+			//int	j = height / 2-5;
+			//int	i = width / 2-20;
 				double x = (eyePt.z - frameZ) * (i - width / 2) / eyePt.z;
 				double y = (eyePt.z - frameZ) * (-j + height / 2) / eyePt.z;
 				Vector3D framePt = new Vector3D(x, y, frameZ);

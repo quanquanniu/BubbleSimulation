@@ -38,6 +38,9 @@ public class Color {
 		r = r * scale;
 		g = g * scale;
 		b = b * scale;
+		if(r > 1) r = 1;
+		if(g > 1) g = 1;
+		if(b > 1) b = 1;
 	}
 	public static Color DotMultiply(Color A, Color B){
 		return new Color(A.r * B.r, A.g * B.g, A.b * B.b);
