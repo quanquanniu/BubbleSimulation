@@ -41,7 +41,7 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 	private static final long serialVersionUID = 1L;
 	private GLU glu;
 	private Point mousePoint;
-	private RayTracer rayTracer;
+	private BubbleRayTracer rayTracer;
 	private GLImage glImage;
 	private Vector3D eyePt;
 	private int width;
@@ -51,8 +51,8 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 		this.width = width;
 		this.height = height;
 		glImage = new GLImage(width, height);
-		rayTracer = new RayTracer();
-		eyePt = new Vector3D(0, 0, 100);
+		rayTracer = new BubbleRayTracer();
+		eyePt = new Vector3D(0, 0, 200);
 
 		addGLEventListener(this);
 		addMouseMotionListener(this);
@@ -102,15 +102,12 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 				double y = (eyePt.z - frameZ) * (-j + height / 2) / eyePt.z;
 				Vector3D framePt = new Vector3D(x, y, frameZ);
 				Vector3D direction = Vector3D.Substract(framePt, eyePt);
-				Color color = rayTracer.Trace(framePt,
-						Vector3D.Normalize(direction), 0.1, 100, eyePt, 1);
-
+				/*Color color = rayTracer.Trace(framePt,
+						Vector3D.Normalize(direction), 0.1, 100, eyePt, 1);*/
+				Color color = rayTracer.Trace(framePt, Vector3D.Normalize(direction), 0.1, 100);
+				
 				glImage.setPixel(i, j, color.ToColor255());
-				/*
-				 * if(i > width / 4 && i < width *3/4 && j < height / 2)
-				 * glImage.setPixel(i, j, new Color(255, 255, 255)); else
-				 * glImage.setPixel(i, j, new Color(100,200,200));
-				 */
+				
 			}
 
 		ByteBuffer colorValues = glImage.getBuffer();
@@ -150,8 +147,8 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 	}
 
 	public static void main(String[] args) {
-		int WIDTH = 300;
-		int HEIGHT = 150;
+		int WIDTH = 600;
+		int HEIGHT = 400;
 		GLCapabilities capabilities = createGLCapabilities();
 		SimpleRayTracer canvas = new SimpleRayTracer(capabilities, WIDTH,
 				HEIGHT);

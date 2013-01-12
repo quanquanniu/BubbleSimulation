@@ -53,8 +53,8 @@ public class RayTracer {
 			}
 
 			/* recursive part */
-			//if(false){
-			if (depth != MAX_DEPTH) {
+			if(false){
+			//if (depth != MAX_DEPTH) {
 				
 				/* color += reflect * R + refract * (1-R) */
 				double cos = Math.abs(Vector3D.cos(surface.getNormal(), direction));

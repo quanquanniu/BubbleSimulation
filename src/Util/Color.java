@@ -8,6 +8,7 @@ public class Color {
 	public double b;
 	public double a;
 	
+	
 	public Color(){}
 	
 	public Color(double r, double g, double b){

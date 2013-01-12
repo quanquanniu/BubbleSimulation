@@ -12,6 +12,7 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import graphics.Light;
 import graphics.Material;
+import graphics.SkyBox;
 import graphics.Triangle;
 import util.Color;
 import util.Vector3D;
@@ -25,6 +26,8 @@ public class Scene {
 	//export from bubblelist, and will be replaced by BSP tree later
 	List<Triangle> triangleList;
 	
+	public static SkyBox skyBox;
+	
 	public static Material testMaterial = new Material();
 	public static Material soapilmMaterial = new Material();
 	
@@ -33,15 +36,21 @@ public class Scene {
 
 	public void SetupScene() {
 		backgroundColor = new Color(200.0/255, 200.0/255, 200.0/255);
-		SetupLights();
-		SetupMaterials();
+		SetupSkybox();
+		//SetupLights();
+		//SetupMaterials();
 		SetupBubbleList();
-		triangleList = new ArrayList<>();
+		triangleList = new ArrayList<Triangle>();
 		for(Bubble bubble : bubbleList){
 			triangleList.addAll(bubble.getTriangles());
 		}
 	}
 
+	private void SetupSkybox(){
+		skyBox = new SkyBox(new Vector3D(-1000, -1000, -1000), new Vector3D(1000, 1000, 1000));
+		skyBox.Load("images\\sybox_forest_pine");
+	}
+	
 	private void SetupLights() {
 		lightList = new ArrayList<Light>();
 		// ambient
@@ -75,8 +84,8 @@ public class Scene {
 	}
 
 	private void SetupBubbleList() {
-		bubbleList = new ArrayList<>();
-		SubdivisionSurface subface = new SubdivisionSurface(40, 2);
+		bubbleList = new ArrayList<Bubble>();
+		SubdivisionSurface subface = new SubdivisionSurface(40, 1);
 
 		Bubble bubble = new Bubble(subface.exportToTraigles());
 		bubble.setCentral(subface.getCentralPoint());
