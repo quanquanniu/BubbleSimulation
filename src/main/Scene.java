@@ -13,6 +13,7 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 import graphics.Light;
 import graphics.Material;
 import graphics.SkyBox;
+import graphics.Sphere;
 import graphics.Triangle;
 import util.Color;
 import util.Vector3D;
@@ -27,6 +28,7 @@ public class Scene {
 	List<Triangle> triangleList;
 	
 	public static SkyBox skyBox;
+	List<Sphere> bubbleSphList;
 	
 	public static Material testMaterial = new Material();
 	public static Material soapilmMaterial = new Material();
@@ -37,17 +39,18 @@ public class Scene {
 	public void SetupScene() {
 		backgroundColor = new Color(200.0/255, 200.0/255, 200.0/255);
 		SetupSkybox();
+		SetupBubbleSphList();
 		//SetupLights();
-		//SetupMaterials();
-		SetupBubbleList();
-		triangleList = new ArrayList<Triangle>();
-		for(Bubble bubble : bubbleList){
-			triangleList.addAll(bubble.getTriangles());
-		}
+		SetupMaterials();
+		//SetupBubbleList();
+//		triangleList = new ArrayList<Triangle>();
+//		for(Bubble bubble : bubbleList){
+//			triangleList.addAll(bubble.getTriangles());
+//		}
 	}
 
 	private void SetupSkybox(){
-		skyBox = new SkyBox(new Vector3D(-1000, -1000, -1000), new Vector3D(1000, 1000, 1000));
+		skyBox = new SkyBox(new Vector3D(-2000, -2000, -2000), new Vector3D(2000, 2000, 2000));
 		skyBox.Load("images\\sybox_forest_pine");
 	}
 	
@@ -80,7 +83,7 @@ public class Scene {
 		testMaterial.setDiffuse(new Color(0.5, 0.5, 0.5, 1));
 		testMaterial.setSpecular(new Color(1, 1, 1, 1));
 		testMaterial.setShineness(3);
-		testMaterial.setRfrcIdx(1.4);
+		testMaterial.setRfrcIdx(1.3);
 	}
 
 	private void SetupBubbleList() {
@@ -93,6 +96,17 @@ public class Scene {
 		bubbleList.add(bubble);
 	}
 
+	private void SetupBubbleSphList(){
+		bubbleSphList = new ArrayList<Sphere>();
+		Sphere bubbleSphere1 = new Sphere(new Vector3D(0,0,20), 40);
+		Sphere bubbleSphere2 = new Sphere(new Vector3D(-130, 30, -30), 30);
+		Sphere bubbleSphere3 = new Sphere(new Vector3D(100, -10, 15), 30);
+		
+		bubbleSphList.add(bubbleSphere1);
+		bubbleSphList.add(bubbleSphere2);
+		bubbleSphList.add(bubbleSphere3);
+	}
+	
 	public Color getBackgroundColor() {
 		return backgroundColor;
 	}
@@ -147,6 +161,14 @@ public class Scene {
 
 	public void setTriangleList(List<Triangle> triangleList) {
 		this.triangleList = triangleList;
+	}
+
+	public List<Sphere> getBubbleSphList() {
+		return bubbleSphList;
+	}
+
+	public void setBubbleSphList(List<Sphere> bubbleSphList) {
+		this.bubbleSphList = bubbleSphList;
 	}
 
 }

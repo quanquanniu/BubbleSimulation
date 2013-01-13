@@ -12,7 +12,7 @@ public class Light {
 	
 	//http://zhidao.baidu.com/question/303610291.html
 	public static final double WAVELENGTH_RED = 700;
-	public static final double WAVELENGTH_GREEN = 470;
+	public static final double WAVELENGTH_GREEN = 550;
 	public static final double WAVELENGTH_BLUE = 420;
 	
 	Color ambient;

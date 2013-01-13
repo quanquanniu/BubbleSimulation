@@ -26,6 +26,7 @@ public class RayTracer {
 	/* reverseLightIfNeed --> for refraction, lightOutSphere -> lightIntoTheSphere*/
 	public Color Trace(Vector3D start, Vector3D direction, double tmin,
 			double tmax, Vector3D eyePt, int depth) {
+		direction = Vector3D.Normalize(direction);
 		Color color = scene.getBackgroundColor();
 		// is hit
 		HitRecord hitRecord = getHitRecord(start, direction, tmin, tmax);
@@ -172,7 +173,7 @@ public class RayTracer {
 		//B
 		double eoplB = d + Light.WAVELENGTH_BLUE / 2;
 		double modB = eoplB % Light.WAVELENGTH_BLUE; 
-		double scaleB = Math.abs(modG - Light.WAVELENGTH_BLUE / 2) / Light.WAVELENGTH_BLUE * 2;
+		double scaleB = Math.abs(modB - Light.WAVELENGTH_BLUE / 2) / Light.WAVELENGTH_BLUE * 2;
 		double interfereB = light.getDiffuse().b * scaleB;
 		//
 		if(interfereR > 1) interfereR = 1;

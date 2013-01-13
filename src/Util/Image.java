@@ -31,6 +31,12 @@ public class Image {
 						data[index][0] = ((double) r) / 255;
 						data[index][1] = ((double) g) / 255;
 						data[index][2] = ((double) b) / 255;
+						data[index][0] += 0.3;
+						if(data[index][0] > 1) data[index][0] = 1;
+						data[index][1] += 0.1;
+						if(data[index][1] > 1) data[index][1] = 1;
+						data[index][2] += 0.1;
+						if(data[index][2] > 1) data[index][2] = 1;
 				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
