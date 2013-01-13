@@ -98,9 +98,10 @@ public class Scene {
 
 	private void SetupBubbleSphList(){
 		bubbleSphList = new ArrayList<Sphere>();
-		Sphere bubbleSphere1 = new Sphere(new Vector3D(0,0,20), 40);
-		Sphere bubbleSphere2 = new Sphere(new Vector3D(-130, 30, -30), 30);
-		Sphere bubbleSphere3 = new Sphere(new Vector3D(100, -10, 15), 30);
+		Sphere bubbleSphere1 = new Sphere(new Vector3D(0,0,0), 40);
+		Sphere bubbleSphere2 = new Sphere(new Vector3D(100, 0, 20), 40);
+		//Sphere bubbleSphere3 = new Sphere(new Vector3D(-80, -80, -60), 40);
+		Sphere bubbleSphere3 = new Sphere(new Vector3D(80, 0, -100), 40);
 		
 		bubbleSphList.add(bubbleSphere1);
 		bubbleSphList.add(bubbleSphere2);
