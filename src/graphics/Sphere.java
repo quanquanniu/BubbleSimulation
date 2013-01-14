@@ -1,5 +1,8 @@
 package graphics;
 
+import java.util.Random;
+
+import util.PerlinNoise;
 import util.Vector3D;
 
 public class Sphere extends Surface{
@@ -67,7 +70,14 @@ public class Sphere extends Surface{
 				if(relative < 0) relative = 0;
 				if(relative > 1) relative = 1;
 				double thickness = (max - min) * (1-relative) + min;
+				thickness += 300 * 2.2 * (PerlinNoise.noise(pt.x/8, pt.y/8, pt.z/8));
 				return thickness;
+	}
+	
+	public boolean isInside(Vector3D pt){
+		Vector3D pc = Vector3D.Substract(pt, center);
+		if(pc.Length() < radius) return true;
+		else return false;
 	}
 	
 	public Vector3D getNormal(Vector3D pt){

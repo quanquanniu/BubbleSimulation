@@ -25,6 +25,8 @@ public class Material {
 		double ratio = (rfrcIdx - 1) / (rfrcIdx + 1);
 		R0 = Math.pow(ratio, 2);
 	}
+	
+	
 	public Color getAmbient() {
 		return ambient;
 	}

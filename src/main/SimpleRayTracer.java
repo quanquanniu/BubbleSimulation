@@ -147,7 +147,7 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 	}
 
 	public static void main(String[] args) {
-		int WIDTH = 600;
+		int WIDTH = 800;
 		int HEIGHT = 400;
 		GLCapabilities capabilities = createGLCapabilities();
 		SimpleRayTracer canvas = new SimpleRayTracer(capabilities, WIDTH,

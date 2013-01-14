@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.ListModel;
 
 import bubble.Bubble;
+import bubble.BubblePair;
 import bubble.SubdivisionSurface;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
@@ -83,7 +84,7 @@ public class Scene {
 		testMaterial.setDiffuse(new Color(0.5, 0.5, 0.5, 1));
 		testMaterial.setSpecular(new Color(1, 1, 1, 1));
 		testMaterial.setShineness(3);
-		testMaterial.setRfrcIdx(1.3);
+		testMaterial.setRfrcIdx(1.4);
 	}
 
 	private void SetupBubbleList() {
@@ -98,14 +99,19 @@ public class Scene {
 
 	private void SetupBubbleSphList(){
 		bubbleSphList = new ArrayList<Sphere>();
-		Sphere bubbleSphere1 = new Sphere(new Vector3D(0,0,0), 40);
-		Sphere bubbleSphere2 = new Sphere(new Vector3D(100, 0, 20), 40);
+		Sphere bubbleSphere1 = new Sphere(new Vector3D(0,-10,0), 40);
+		Sphere bubbleSphere2 = new Sphere(new Vector3D(-40, -10, 0), 30);
 		//Sphere bubbleSphere3 = new Sphere(new Vector3D(-80, -80, -60), 40);
-		Sphere bubbleSphere3 = new Sphere(new Vector3D(80, 0, -100), 40);
+		Sphere bubbleSphere3 = new Sphere(new Vector3D(180, -60, -20), 40);
+		Sphere bubbleSphere4 = new Sphere(new Vector3D(180, 80, -220), 40);
 		
-		bubbleSphList.add(bubbleSphere1);
-		bubbleSphList.add(bubbleSphere2);
+		BubblePair bubblePair1 = new BubblePair(bubbleSphere1, bubbleSphere2);
+		bubbleSphList.add(bubblePair1);
+		
+//		bubbleSphList.add(bubbleSphere1);
+//		bubbleSphList.add(bubbleSphere2);
 		bubbleSphList.add(bubbleSphere3);
+		bubbleSphList.add(bubbleSphere4);
 	}
 	
 	public Color getBackgroundColor() {

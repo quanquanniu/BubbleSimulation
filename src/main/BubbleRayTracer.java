@@ -32,14 +32,18 @@ public class BubbleRayTracer {
 			double nd = Vector3D.DotProduct(normal, direction);
 			Vector3D reflectDirection = Vector3D.Add(direction,
 					Vector3D.Scale(normal, nd * -2));
-			Color reflectColor;// = new Color(0,0,0);
+			Color reflectColor;// = new Color(0.5,0.5,0.5);
 			if(depth != MAX_DEPTH){
 				reflectColor = Trace(hitPt, reflectDirection, tmin, tmax, depth + 1);
 			} 
 			else {
 				reflectColor = Scene.skyBox.HitColor(hitPt, reflectDirection);
+				//reflectColor = new Color(0.5,0.5,0.5);
 			} 
 			
+			//interference
+			double thickness = surface.getThickness(hitPt);
+			reflectColor = getInterfereLight2(reflectDirection, normal, reflectColor, thickness, scene.testMaterial);
 			color = reflectColor;
 			
 			//refraction
@@ -49,20 +53,17 @@ public class BubbleRayTracer {
 			}
 			else {
 				refractColor = Scene.skyBox.HitColor(surface.getCenter(), direction);
+				//refractColor = new Color(0.5,0.5,0.5);
 			}
 			
-			//interference
-			double thickness = surface.getThickness(hitPt);
-			reflectColor = getInterfereLight2(reflectDirection, normal, reflectColor, thickness, scene.testMaterial);
 			//mix
 			double cos = Math.abs(Vector3D.cos(normal, direction));
 			double R0 = Scene.testMaterial.getR0();
 			double R = R0 + (1 - R0) * Math.pow(1 - cos, 5);
-			System.out.println("R = " + R);
-			//R= 0.1;
+			
 			reflectColor.Scale(R);
-			//color = reflectColor;
 			refractColor.Scale(1-R);
+			
 			color = Color.Add(reflectColor, refractColor);
 			
 		}else{ //trace to skybox
@@ -117,6 +118,7 @@ public class BubbleRayTracer {
 	private Color getInterfereLight2(Vector3D lightDirection, Vector3D normal, Color lightColor, double thickness, Material material){
 		Vector3D toLightDirection = lightDirection;
 		double cos = Math.abs(Vector3D.cos(normal, toLightDirection));
+		
 		double d = 2 * thickness * material.getRfrcIdx() * cos;
 		//R
 		double eoplR = d / Light.WAVELENGTH_RED;
