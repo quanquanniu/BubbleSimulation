@@ -51,8 +51,12 @@ public class Scene {
 	}
 
 	private void SetupSkybox(){
-		skyBox = new SkyBox(new Vector3D(-2000, -2000, -2000), new Vector3D(2000, 2000, 2000));
-		skyBox.Load("images\\sybox_forest_pine");
+		skyBox = new SkyBox(new Vector3D(-1500, -1500, -1500), new Vector3D(1500, 1500, 1500));
+		skyBox.Load("images\\sybox_forest_pine", "jpg");
+		//skyBox.Load("images\\inner\\stpeters", "jpg");
+		//skyBox.Load("images\\skyboxes\\SkyBox7", "jpg");
+		//skyBox = new SkyBox(new Vector3D(-5000, -5000, -2000), new Vector3D(5000, 5000, 2000));
+		//skyBox.Load("images\\front_skybox\\architecture");
 	}
 	
 	private void SetupLights() {
@@ -61,7 +65,6 @@ public class Scene {
 		ambientLight = new Light();
 		ambientLight.setType(Light.AMBIENT);
 		ambientLight.setAmbient(new Color(0.2, 0.2, 0.2, 1));
-
 		// light 1
 		Light light1 = new Light();
 		light1.setType(Light.SPOT_LIGHT_ALL_DIRECTION);

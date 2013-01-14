@@ -64,7 +64,7 @@ public class Sphere extends Surface{
 	public double getThickness(Vector3D pt){
 		//compute by pt.y & central.y
 				//300nm ~ 2000 nm
-				double min = 30;
+				double min = 130;
 				double max = 2000;
 				double relative = (pt.y - (center.y - radius)) / (radius * 2);
 				if(relative < 0) relative = 0;

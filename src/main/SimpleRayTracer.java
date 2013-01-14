@@ -2,6 +2,8 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
@@ -35,7 +37,7 @@ import com.sun.xml.internal.ws.util.ByteArrayBuffer;
  * @since 26 Feb 2009
  */
 public class SimpleRayTracer extends GLCanvas implements GLEventListener,
-		MouseMotionListener {
+		MouseMotionListener, KeyListener {
 
 	/** Serial version UID. */
 	private static final long serialVersionUID = 1L;
@@ -52,10 +54,12 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 		this.height = height;
 		glImage = new GLImage(width, height);
 		rayTracer = new BubbleRayTracer();
-		eyePt = new Vector3D(0, 0, 100);
+		eyePt = new Vector3D(0, 30, 100);
 
 		addGLEventListener(this);
 		addMouseMotionListener(this);
+		
+		addKeyListener(this);
 
 	}
 
@@ -112,6 +116,7 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 
 		ByteBuffer colorValues = glImage.getBuffer();
 		colorValues.rewind();
+		System.out.println("display");
 
 		GL gl = drawable.getGL();
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
@@ -145,10 +150,36 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 		mousePoint = mouse.getPoint();
 		display();
 	}
+	
+	public void keyPressed(KeyEvent e){
+		
+		System.out.println();
+		String key = KeyEvent.getKeyText(e.getKeyCode());
+		if(key.equals("F")){
+			eyePt.x += 10;
+		}
+		if(key.equals("A")){
+			eyePt.x += 10;
+		}
+		if(key.equals("E")){
+			eyePt.y += 10;
+		}
+		if(key.equals("D")){
+			eyePt.y -= 10;
+		}
+		if(key.equals("J")){
+			eyePt.z += 10;
+		}
+		if(key.equals("K")){
+			eyePt.z -= 10;
+		}
+	}
 
+	
+	
 	public static void main(String[] args) {
 		int WIDTH = 800;
-		int HEIGHT = 400;
+		int HEIGHT = 800;
 		GLCapabilities capabilities = createGLCapabilities();
 		SimpleRayTracer canvas = new SimpleRayTracer(capabilities, WIDTH,
 				HEIGHT);
@@ -164,6 +195,18 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -25,18 +25,13 @@ public class Image {
 				for(int j = 0; j < height; j++){
 					int index = j * width + i;
 					 int pixel = srcImg.getRGB(i, j);
-					 	int r = (pixel & 0xff00) >> 16;
+					 	int r = (pixel & 0xff0000 ) >> 16;
 						int g = (pixel & 0xff00) >> 8;//g
 						int b = (pixel & 0xff);//b
 						data[index][0] = ((double) r) / 255;
 						data[index][1] = ((double) g) / 255;
 						data[index][2] = ((double) b) / 255;
-						data[index][0] += 0.3;
-						if(data[index][0] > 1) data[index][0] = 1;
-						data[index][1] += 0.1;
-						if(data[index][1] > 1) data[index][1] = 1;
-						data[index][2] += 0.1;
-						if(data[index][2] > 1) data[index][2] = 1;
+					
 				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

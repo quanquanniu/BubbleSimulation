@@ -60,11 +60,11 @@ public class BubbleRayTracer {
 			double cos = Math.abs(Vector3D.cos(normal, direction));
 			double R0 = Scene.testMaterial.getR0();
 			double R = R0 + (1 - R0) * Math.pow(1 - cos, 5);
-			
+			//R += 0.05;
 			reflectColor.Scale(R);
 			refractColor.Scale(1-R);
 			
-			color = Color.Add(reflectColor, refractColor);
+			color = Color.Add(reflectColor, refractColor); 
 			
 		}else{ //trace to skybox
 			color = scene.skyBox.HitColor(start, direction);

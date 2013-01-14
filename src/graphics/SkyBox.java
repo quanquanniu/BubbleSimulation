@@ -25,10 +25,10 @@ public class SkyBox {
 		this.minPt = minPt;
 		this.maxPt = maxPt;
 	}
-	public void Load(String path){
+	public void Load(String path, String postfix){
 		images = new util.Image[6];
 		for(int i = 0; i < 6; i++){
-			String imgPath = path + "\\" + imgNames[i] + ".jpg";
+			String imgPath = path + "\\" + imgNames[i] + "." + postfix;
 			util.Image img = new util.Image();
 			img.OpenImg(imgPath);
 			images[i] = img;
@@ -58,6 +58,8 @@ public class SkyBox {
 		imgToWorldPos[SKYBOX_TOP][1] = new Vector3D(rightX, topY, frontZ);
 		imgToWorldPos[SKYBOX_BOTTOM][0] = new Vector3D(leftX, bottomY, frontZ);//minPt
 		imgToWorldPos[SKYBOX_BOTTOM][1] = new Vector3D(rightX, bottomY, backZ);
+		
+	
 	}
 	
 	public Color HitColor(Vector3D start, Vector3D direction){
