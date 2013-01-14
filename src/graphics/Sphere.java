@@ -61,7 +61,7 @@ public class Sphere extends Surface{
 		return record;
 	}
 	
-	public double getThickness(Vector3D pt){
+	public double getThickness(Vector3D pt, double perlineRandom){
 		//compute by pt.y & central.y
 				//300nm ~ 2000 nm
 				double min = 130;
@@ -70,7 +70,7 @@ public class Sphere extends Surface{
 				if(relative < 0) relative = 0;
 				if(relative > 1) relative = 1;
 				double thickness = (max - min) * (1-relative) + min;
-				thickness += 300 * 2.2 * (PerlinNoise.noise(pt.x/8, pt.y/8, pt.z/8));
+				thickness += 300 * (2 + perlineRandom * 3) * (PerlinNoise.noise(pt.x/8, pt.y/8, pt.z/8));
 				return thickness;
 	}
 	

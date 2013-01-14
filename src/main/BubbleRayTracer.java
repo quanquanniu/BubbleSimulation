@@ -19,7 +19,7 @@ public class BubbleRayTracer {
 	}
 	
 	public Color Trace(Vector3D start, Vector3D direction, double tmin,
-			double tmax, int depth){
+			double tmax, double perlinRandom, int depth){
 		direction = Vector3D.Normalize(direction);
 		Color color;
 		
@@ -34,7 +34,7 @@ public class BubbleRayTracer {
 					Vector3D.Scale(normal, nd * -2));
 			Color reflectColor;// = new Color(0.5,0.5,0.5);
 			if(depth != MAX_DEPTH){
-				reflectColor = Trace(hitPt, reflectDirection, tmin, tmax, depth + 1);
+				reflectColor = Trace(hitPt, reflectDirection, tmin, tmax, perlinRandom, depth + 1);
 			} 
 			else {
 				reflectColor = Scene.skyBox.HitColor(hitPt, reflectDirection);
@@ -42,14 +42,14 @@ public class BubbleRayTracer {
 			} 
 			
 			//interference
-			double thickness = surface.getThickness(hitPt);
+			double thickness = surface.getThickness(hitPt, perlinRandom);
 			reflectColor = getInterfereLight2(reflectDirection, normal, reflectColor, thickness, scene.testMaterial);
 			color = reflectColor;
 			
 			//refraction
 			Color refractColor;
 			if(depth != MAX_DEPTH){
-				 refractColor = Trace(hitPt, direction, tmin, tmax, depth+1);
+				 refractColor = Trace(hitPt, direction, tmin, tmax, perlinRandom, depth+1);
 			}
 			else {
 				refractColor = Scene.skyBox.HitColor(surface.getCenter(), direction);

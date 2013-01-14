@@ -98,6 +98,8 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 	public void display(GLAutoDrawable drawable) {
 
 		double frameZ = 50;
+		double random = Math.random();
+		System.out.println("random = " + random);
 		for (int j = 0; j < height; j++)
 		for (int i = 0; i < width; i++) {
 		//	int	j = height / 2 - 2;
@@ -108,7 +110,7 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 				Vector3D direction = Vector3D.Substract(framePt, eyePt);
 				//Color color = rayTracer.Trace(framePt,
 				//		Vector3D.Normalize(direction), 0.1, 100, eyePt, 1);*/
-				Color color = rayTracer.Trace(framePt, Vector3D.Normalize(direction), 0.1, 2000, 1);
+				Color color = rayTracer.Trace(framePt, Vector3D.Normalize(direction), 0.1, 2000, random, 1);
 				
 				glImage.setPixel(i, j, color.ToColor255());
 				
