@@ -1,5 +1,7 @@
 package main;
 
+import graphics.Sphere;
+
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -8,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
+import java.util.List;
 
 import javax.media.opengl.DebugGL;
 import javax.media.opengl.GL;
@@ -24,6 +27,7 @@ import util.Color;
 import util.GLImage;
 import util.Vector3D;
 
+import bubble.BubblePair;
 import bubble.SubdivisionSurface;
 
 import com.sun.opengl.util.BufferUtil;
@@ -99,26 +103,28 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 
 		double frameZ = 50;
 		double random = Math.random();
-		System.out.println("random = " + random);
+		Move(rayTracer.scene);
+		
+		System.gc();
+		long  startTime = System.currentTimeMillis();
 		for (int j = 0; j < height; j++)
 		for (int i = 0; i < width; i++) {
-		//	int	j = height / 2 - 2;
-		//	int	i = width / 2 ;
 				double x = (eyePt.z - frameZ) * (i - width / 2) / eyePt.z / 2 ;
 				double y = (eyePt.z - frameZ) * (-j + height / 2) / eyePt.z / 2;
 				Vector3D framePt = new Vector3D(x, y, frameZ);
 				Vector3D direction = Vector3D.Substract(framePt, eyePt);
-				//Color color = rayTracer.Trace(framePt,
-				//		Vector3D.Normalize(direction), 0.1, 100, eyePt, 1);*/
 				Color color = rayTracer.Trace(framePt, Vector3D.Normalize(direction), 0.1, 2000, random, 1);
 				
 				glImage.setPixel(i, j, color.ToColor255());
 				
 		}
-
+		System.gc();
+		long  endTime = System.currentTimeMillis();
+		long duration = (endTime - startTime);
+		System.out.println("duration = " + duration);
+		
 		ByteBuffer colorValues = glImage.getBuffer();
 		colorValues.rewind();
-		System.out.println("display");
 
 		GL gl = drawable.getGL();
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
@@ -142,6 +148,26 @@ public class SimpleRayTracer extends GLCanvas implements GLEventListener,
 
 	}
 
+	
+	private void Move(Scene scene){
+		//hard coded
+		List<Sphere> bubbleList = scene.getBubbleSphList();
+		if(!bubbleList.get(0).getClass().toString().contains("BubblePair")){
+			Sphere bubble1 = bubbleList.get(0);
+			Sphere bubble2 = bubbleList.get(1);
+			bubble1.getCenter().x += 2;
+			bubble2.getCenter().x += 10;
+			
+			if(Vector3D.Substract(bubble1.getCenter(), bubble2.getCenter()).Length() < bubble1.getRadius() + bubble2.getRadius()){
+				bubbleList.remove(0);
+				bubbleList.remove(0);
+				BubblePair bubblePair1 = new BubblePair(bubble1, bubble2);
+				bubbleList.add(0, bubblePair1);
+				System.out.println("integrated");
+			}
+		}
+	}
+	
 	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
 			boolean deviceChanged) {
 		throw new UnsupportedOperationException(

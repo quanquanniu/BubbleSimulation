@@ -54,9 +54,11 @@ public class Scene {
 		skyBox = new SkyBox(new Vector3D(-1500, -1500, -1500), new Vector3D(1500, 1500, 1500));
 		skyBox.Load("images\\sybox_forest_pine", "jpg");
 		//skyBox.Load("images\\inner\\stpeters", "jpg");
+		//skyBox.Load("images\\skyboxes\\lostvalley", "png");
+		
 		//skyBox.Load("images\\skyboxes\\SkyBox7", "jpg");
 		//skyBox = new SkyBox(new Vector3D(-5000, -5000, -2000), new Vector3D(5000, 5000, 2000));
-		//skyBox.Load("images\\front_skybox\\architecture");
+		//skyBox.Load("images\\checkered", "jpg");
 	}
 	
 	private void SetupLights() {
@@ -103,18 +105,34 @@ public class Scene {
 	private void SetupBubbleSphList(){
 		bubbleSphList = new ArrayList<Sphere>();
 		Sphere bubbleSphere1 = new Sphere(new Vector3D(0,-10,0), 40);
-		Sphere bubbleSphere2 = new Sphere(new Vector3D(-40, -10, 0), 30);
-		//Sphere bubbleSphere3 = new Sphere(new Vector3D(-80, -80, -60), 40);
+		Sphere bubbleSphere2 = new Sphere(new Vector3D(-110, -10, 0), 30);
+		//Sphere bubbleSphere2 = new Sphere(new Vector3D(-40, -10, 0), 30);
 		Sphere bubbleSphere3 = new Sphere(new Vector3D(180, -60, -20), 40);
 		Sphere bubbleSphere4 = new Sphere(new Vector3D(180, 80, -220), 40);
 		
-		BubblePair bubblePair1 = new BubblePair(bubbleSphere1, bubbleSphere2);
-		bubbleSphList.add(bubblePair1);
+		Sphere bubbleSphere5 = new Sphere(new Vector3D(-180, 30, -220), 30);
+		Sphere bubbleSphere6 = new Sphere(new Vector3D(100, 120, -320), 20);
+		Sphere bubbleSphere7 = new Sphere(new Vector3D(20, 40, -120), 70);
+		Sphere bubbleSphere8 = new Sphere(new Vector3D(100, -80, -280), 40);
+		Sphere bubbleSphere9 = new Sphere(new Vector3D(-30, -80, -70), 20);
+		Sphere bubbleSphere10 = new Sphere(new Vector3D(-130, -180, -70), 30);
+	
 		
-//		bubbleSphList.add(bubbleSphere1);
-//		bubbleSphList.add(bubbleSphere2);
+//		BubblePair bubblePair1 = new BubblePair(bubbleSphere1, bubbleSphere2);
+//		bubbleSphList.add(bubblePair1);
+		
+		bubbleSphList.add(bubbleSphere1);
+		bubbleSphList.add(bubbleSphere2);
 		bubbleSphList.add(bubbleSphere3);
 		bubbleSphList.add(bubbleSphere4);
+		
+		
+	/*	bubbleSphList.add(bubbleSphere5);
+		bubbleSphList.add(bubbleSphere6);
+		bubbleSphList.add(bubbleSphere7);
+		bubbleSphList.add(bubbleSphere8);
+		bubbleSphList.add(bubbleSphere9);
+		bubbleSphList.add(bubbleSphere10);*/
 	}
 	
 	public Color getBackgroundColor() {

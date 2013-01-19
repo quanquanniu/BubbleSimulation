@@ -10,7 +10,7 @@ import util.Color;
 import util.Vector3D;
 
 public class BubbleRayTracer {
-	private Scene scene;
+	public Scene scene;
 	private final int MAX_DEPTH = 3;
 
 	public BubbleRayTracer() {
@@ -65,6 +65,7 @@ public class BubbleRayTracer {
 			refractColor.Scale(1-R);
 			
 			color = Color.Add(reflectColor, refractColor); 
+			
 			
 		}else{ //trace to skybox
 			color = scene.skyBox.HitColor(start, direction);
