@@ -1,4 +1,7 @@
 package util;
+/*
+ * Source code by Perlin: http://mrl.nyu.edu/~perlin/noise/
+ */
 public final class PerlinNoise {
    static public double noise(double x, double y, double z) {
       int X = (int)Math.floor(x) & 255,                  // FIND UNIT CUBE THAT
