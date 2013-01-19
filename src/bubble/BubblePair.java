@@ -34,8 +34,9 @@ public class BubblePair extends Sphere{
 	}
 	private void GenerateC(){
 		double radius = A.getRadius() * B.getRadius() / (A.getRadius() - B.getRadius());
+		double bc = Math.sqrt(B.getRadius() * B.getRadius() + radius * radius - B.getRadius() * radius);
 		Vector3D normAB = Vector3D.Normalize(Vector3D.Substract(B.getCenter(), A.getCenter()));
-		Vector3D centerC = Vector3D.Add(A.getCenter(), Vector3D.Scale(normAB, radius));
+		Vector3D centerC = Vector3D.Add(B.getCenter(), Vector3D.Scale(normAB, bc));
 		C = new Sphere(centerC, radius);
 	}
 	

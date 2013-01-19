@@ -7,6 +7,7 @@ import javax.swing.ListModel;
 
 import bubble.Bubble;
 import bubble.BubblePair;
+import bubble.BubbleTriplets;
 import bubble.SubdivisionSurface;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
@@ -52,8 +53,8 @@ public class Scene {
 
 	private void SetupSkybox(){
 		skyBox = new SkyBox(new Vector3D(-1500, -1500, -1500), new Vector3D(1500, 1500, 1500));
-		skyBox.Load("images\\sybox_forest_pine", "jpg");
-		//skyBox.Load("images\\inner\\stpeters", "jpg");
+		//skyBox.Load("images\\sybox_forest_pine", "jpg");
+		skyBox.Load("images\\inner\\stpeters", "jpg");
 		//skyBox.Load("images\\skyboxes\\lostvalley", "png");
 		
 		//skyBox.Load("images\\skyboxes\\SkyBox7", "jpg");
@@ -104,35 +105,43 @@ public class Scene {
 
 	private void SetupBubbleSphList(){
 		bubbleSphList = new ArrayList<Sphere>();
-		Sphere bubbleSphere1 = new Sphere(new Vector3D(0,-10,0), 40);
-		Sphere bubbleSphere2 = new Sphere(new Vector3D(-110, -10, 0), 30);
+		Sphere bubbleSphere1 = new Sphere(new Vector3D(0,-30,0), 40);
+		Sphere bubbleSphere2 = new Sphere(new Vector3D(-110, -30, 0), 30);
 		//Sphere bubbleSphere2 = new Sphere(new Vector3D(-40, -10, 0), 30);
 		Sphere bubbleSphere3 = new Sphere(new Vector3D(180, -60, -20), 40);
 		Sphere bubbleSphere4 = new Sphere(new Vector3D(180, 80, -220), 40);
 		
-		Sphere bubbleSphere5 = new Sphere(new Vector3D(-180, 30, -220), 30);
-		Sphere bubbleSphere6 = new Sphere(new Vector3D(100, 120, -320), 20);
-		Sphere bubbleSphere7 = new Sphere(new Vector3D(20, 40, -120), 70);
-		Sphere bubbleSphere8 = new Sphere(new Vector3D(100, -80, -280), 40);
-		Sphere bubbleSphere9 = new Sphere(new Vector3D(-30, -80, -70), 20);
-		Sphere bubbleSphere10 = new Sphere(new Vector3D(-130, -180, -70), 30);
-	
+		Sphere triplet1 = new Sphere(new Vector3D(-60-30, -80+150, -80), 40);
+		Sphere triplet2 = new Sphere(new Vector3D(0-30, -90+150, -80), 30);
+		Sphere triplet3 = new Sphere(new Vector3D(-10-30, -55+150, -80), 22);
+
 		
 //		BubblePair bubblePair1 = new BubblePair(bubbleSphere1, bubbleSphere2);
 //		bubbleSphList.add(bubblePair1);
+		
+		
 		
 		bubbleSphList.add(bubbleSphere1);
 		bubbleSphList.add(bubbleSphere2);
 		bubbleSphList.add(bubbleSphere3);
 		bubbleSphList.add(bubbleSphere4);
 		
-		
+		BubbleTriplets bubbleTriplets1 = new BubbleTriplets(triplet1, triplet2, triplet3);
+		bubbleSphList.add(bubbleTriplets1);
+	
+		/*Sphere bubbleSphere5 = new Sphere(new Vector3D(-180, 30, -220), 30);
+		Sphere bubbleSphere6 = new Sphere(new Vector3D(100, 120, -320), 20);
+		Sphere bubbleSphere7 = new Sphere(new Vector3D(20, 40, -120), 70);
+		Sphere bubbleSphere8 = new Sphere(new Vector3D(100, -80, -280), 40);
+		Sphere bubbleSphere9 = new Sphere(new Vector3D(-30, -80, -70), 20);
+		Sphere bubbleSphere10 = new Sphere(new Vector3D(-130, -180, -70), 30);*/
 	/*	bubbleSphList.add(bubbleSphere5);
 		bubbleSphList.add(bubbleSphere6);
 		bubbleSphList.add(bubbleSphere7);
 		bubbleSphList.add(bubbleSphere8);
 		bubbleSphList.add(bubbleSphere9);
 		bubbleSphList.add(bubbleSphere10);*/
+		
 	}
 	
 	public Color getBackgroundColor() {
